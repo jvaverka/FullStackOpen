@@ -26,16 +26,12 @@ const Part = (props) => {
       <p>{props.name} {props.count}</p>
     </>
   )
-
 }
 
 const Total = (props) => {
   return (
     <>
-      <p>Number of exercises {props.part1.exercises + 
-                              props.part2.exercises + 
-                              props.part3.exercises}
-      </p>
+      <p>Number of exercises {props.p1 + props.p2 + props.p3}</p>
     </>
   )
 }
@@ -58,9 +54,8 @@ const App = () => {
   return (
     <>
       <Header course={course} />
-      <Content part1={part1} part2={part2} part3={part3}/>
-      <Total part1={part1} part2={part2} part3={part3}/>
-
+      <Content part1={part1} part2={part2} part3={part3} />
+      <Total p1={part1.exercises} p2={part2.exercises} p3={part3.exercises} />
     </>
   )
 }
