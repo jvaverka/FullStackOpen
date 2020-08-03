@@ -11,13 +11,15 @@ const Header = (props) => {
 }
 
 const Content = (props) => {
-  return (
-    <>
-      <Part name={props.part1.name} count={props.part1.exercises}/>
-      <Part name={props.part2.name} count={props.part2.exercises}/>
-      <Part name={props.part3.name} count={props.part3.exercises}/>
-    </>
-  )
+  // create array to contain rows
+  let result = []
+  // add new Part row for each element
+  props.parts.forEach(element => {
+    // provide name & count properties to satisfy Part definition
+    result.push(<Part name={element.name} count={element.exercises} />)
+  })
+
+  return result
 }
 
 const Part = (props) => {
@@ -29,9 +31,16 @@ const Part = (props) => {
 }
 
 const Total = (props) => {
+  // initialize a variable for total cound
+  let count = 0
+  // add number of exercises for each element
+  props.parts.forEach(element => {
+    count += element.exercises
+  });
+  // return total count
   return (
     <>
-      <p>Number of exercises {props.p1 + props.p2 + props.p3}</p>
+      <p>Number of exercises {count}</p>
     </>
   )
 }
@@ -56,8 +65,8 @@ const App = () => {
   return (
     <>
       <Header course={course} />
-      <Content part1={parts[0]} part2={parts[1]} part3={parts[2]} />
-      <Total p1={parts[0].exercises} p2={parts[1].exercises} p3={parts[2].exercises} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </>
   )
 }
