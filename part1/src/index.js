@@ -30,7 +30,18 @@ const Footer = () => (
  * @description Display shows value of clicks variable - aka component state
  * @param { Object } clicks is an object describing the composite state of App 
  */
-const Display = ({ clicks: { left, right } }) => <div>Left: {left}, Right: {right}</div>
+const Display = ({ clicks: { left, right }, all }) => {
+  return (
+    <div>
+      <p>
+        Left: {left}, Right: {right}
+      </p>
+      <p>
+        All: {all.join(' ')}
+      </p>
+    </div>
+  )
+}
 /**
  * @description Button is a reusable button component
  * @param { Function } handleClick is the callback function executed onClick
@@ -49,14 +60,33 @@ const Button = ({ handleClick, text }) => (
 const App = () => {
   // complex - or composite - state variables
   const [ clicks, setClicks ] = useState({ left: 0, right: 0 })
+  const [ allClicks, setAll ] = useState([])
   // left handlers
-  const increaseLeftByOne = () => setClicks({...clicks, left: clicks.left + 1})
-  const decreaseLeftByOne = () => setClicks({...clicks, left: clicks.left - 1})
-  const setLeftToZero     = () => setClicks({...clicks, left: 0})
+  const increaseLeftByOne = () => {
+    setAll(allClicks.concat('L'))
+    setClicks({...clicks, left: clicks.left + 1})
+  }
+  const decreaseLeftByOne = () => {
+    setAll(allClicks.concat('L'))
+    setClicks({...clicks, left: clicks.left - 1})
+  }
+  const setLeftToZero = () => {
+    setAll(allClicks.concat('L'))
+    setClicks({...clicks, left: 0})
+  }
   // right handlers
-  const increaseRightByOne = () => setClicks({...clicks, right: clicks.right + 1})
-  const decreaseRightByOne = () => setClicks({...clicks, right: clicks.right - 1})
-  const setRightToZero     = () => setClicks({...clicks, right: 0})
+  const increaseRightByOne = () => {
+    setAll(allClicks.concat('R'))
+    setClicks({...clicks, right: clicks.right + 1})
+  }
+  const decreaseRightByOne = () => {
+    setAll(allClicks.concat('R'))
+    setClicks({...clicks, right: clicks.right - 1})
+  }
+  const setRightToZero = () => {
+    setAll(allClicks.concat('R'))
+    setClicks({...clicks, right: 0})
+  }
   // example - passing by variables
   const name = 'Harry'
   const thisYear = new Date().getFullYear()
@@ -71,7 +101,7 @@ const App = () => {
       <br />
       <Footer />
       <br />
-      <Display clicks={clicks}/>
+      <Display clicks={clicks} all={allClicks}/>
       <Button handleClick={increaseLeftByOne} text='left++' />
       <Button handleClick={increaseRightByOne} text='right++' />
       <br />
