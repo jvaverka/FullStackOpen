@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 /**
+ * @description Example of a function in a function.
+ * Funct-ception if you will.
+ * @param { String } who defines who we are greeting
+ */
+const Greet = (who) => () => {
+  console.log('yo', who)
+}
+/**
  * @description Hello component returns name, age, and
  * birth year derived from given age and current year
  * @param { String } name of person
@@ -107,9 +115,12 @@ const App = () => {
   const name = 'Harry'
   const thisYear = new Date().getFullYear()
   const age = thisYear - 1980
+  // the next line is a GREAT & POWERFUL tool for debugging!!!!
+  // debugger
   return (
     <>
       <h1>Greetings, puiny human</h1>
+      <Button handleClick={Greet('human')} text='press me' />
       <Hello name={name} age={age}/>
       <Hello name='Jake' age={thisYear-1991}/>
       <Hello name='Josh' age={thisYear-1990}/>
