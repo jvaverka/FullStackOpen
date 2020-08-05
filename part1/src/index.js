@@ -27,10 +27,10 @@ const Footer = () => (
   </div>
 )
 /**
- * @description Display shows value of counter variable - aka component state
- * @param { Number } counter is a number describing the state of App 
+ * @description Display shows value of clicks variable - aka component state
+ * @param { Object } clicks is an object describing the composite state of App 
  */
-const Display = ({ counter }) => <div>{counter}</div>
+const Display = ({ clicks: { left, right } }) => <div>Left: {left}, Right: {right}</div>
 /**
  * @description Button is a reusable button component
  * @param { Function } handleClick is the callback function executed onClick
@@ -44,32 +44,42 @@ const Button = ({ handleClick, text }) => (
 /**
  * @description App is main function and gets run automatically.  App also
  * contains all other sub-components defined above.  Therefore, on any state
- * change (or button click) App is re-rendered along with its sub-components.
+ * change (aka button click) App is re-rendered along with its sub-components.
  */
 const App = () => {
-  const [ counter, setCounter ] = useState(0)
-  // handlers
-  const increaseByOne = () => setCounter(counter + 1)
-  const decreaseByOne = () => setCounter(counter - 1)
-  const setToZero = () => setCounter(0)
+  // complex - or composite - state variables
+  const [ clicks, setClicks ] = useState({ left: 0, right: 0 })
+  // left handlers
+  const increaseLeftByOne = () => setClicks({...clicks, left: clicks.left + 1})
+  const decreaseLeftByOne = () => setClicks({...clicks, left: clicks.left - 1})
+  const setLeftToZero     = () => setClicks({...clicks, left: 0})
+  // right handlers
+  const increaseRightByOne = () => setClicks({...clicks, right: clicks.right + 1})
+  const decreaseRightByOne = () => setClicks({...clicks, right: clicks.right - 1})
+  const setRightToZero     = () => setClicks({...clicks, right: 0})
   // example - passing by variables
   const name = 'Harry'
-  const this_year = new Date().getFullYear()
-  const age = this_year - 1989
+  const thisYear = new Date().getFullYear()
+  const age = thisYear - 1980
   return (
     <>
       <h1>Greetings, puiny human</h1>
       <Hello name={name} age={age}/>
-      <Hello name='Jake' age={this_year-1991}/>
-      <Hello name='Josh' age={this_year-1990}/>
+      <Hello name='Jake' age={thisYear-1991}/>
+      <Hello name='Josh' age={thisYear-1990}/>
       <br />
       <br />
       <Footer />
       <br />
-      <Display counter={counter}/>
-      <Button handleClick={increaseByOne} text='plus' />
-      <Button handleClick={setToZero} text='reset' />
-      <Button handleClick={decreaseByOne} text='minus' />
+      <Display clicks={clicks}/>
+      <Button handleClick={increaseLeftByOne} text='left++' />
+      <Button handleClick={increaseRightByOne} text='right++' />
+      <br />
+      <Button handleClick={setLeftToZero} text='0 left' />
+      <Button handleClick={setRightToZero} text='0 right' />
+      <br />
+      <Button handleClick={decreaseLeftByOne} text='left--' />
+      <Button handleClick={decreaseRightByOne} text='right--' />
     </>
   )
 }
