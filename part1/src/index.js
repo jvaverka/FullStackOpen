@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 /**
  * @description Hello component returns name, age, and
  * birth year derived from given age and current year
+ * @param { String } name of person
+ * @param { Number } age of person
  */
-const Hello = ({ name, age }) => {  
+const Hello = ({ name, age }) => {
+  // function to calculate year of birth  
   const bornYear = () => new Date().getFullYear() - age
   return (
     <div>
