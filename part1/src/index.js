@@ -28,9 +28,25 @@ const Footer = () => {
   )
 }
 
+const Display = (props) => {
+  return (
+    <div>{props.counter}</div>
+  )
+}
+
+const Button = (props) => {
+  return (
+    <button onClick={props.handleClick}>
+      {props.text}
+    </button>
+  )
+}
+
 const App = () => {
   const [ counter, setCounter ] = useState(0)
   
+  const increaseByOne = () => setCounter(counter + 1)
+  const decreaseByOne = () => setCounter(counter - 1)
   const setToZero = () => setCounter(0)
 
   const name = 'Harry'
@@ -47,17 +63,10 @@ const App = () => {
       <br />
       <Footer />
       <br />
-      <div>
-        {counter}
-      </div>
-      {/* event handler with function - BAD practice*/}
-      <button onClick={() => setCounter(counter + 1)}>
-        plus
-      </button>
-      {/* event handler with function reference - GOOD practice*/}
-      <button onClick={setToZero}>
-        reset
-      </button>
+      <Display counter={counter}/>
+      <Button handleClick={increaseByOne} text='plus' />
+      <Button handleClick={setToZero} text='reset' />
+      <Button handleClick={decreaseByOne} text='minus' />
     </>
   )
 }
