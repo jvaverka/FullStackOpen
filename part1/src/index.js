@@ -30,19 +30,12 @@ const Footer = () => {
 
 const App = () => {
   const [ counter, setCounter ] = useState(0)
+  
+  const setToZero = () => setCounter(0)
 
   const name = 'Harry'
   const this_year = new Date().getFullYear()
   const age = this_year - 1989
-
-  setTimeout(
-    // increment counter
-    () => setCounter(counter + 1),
-    // 1s delay
-    1000
-  )
-
-  // console.log('rendering...', counter)
 
   return (
     <>
@@ -57,6 +50,14 @@ const App = () => {
       <div>
         {counter}
       </div>
+      {/* event handler with function - BAD practice*/}
+      <button onClick={() => setCounter(counter + 1)}>
+        plus
+      </button>
+      {/* event handler with function reference - GOOD practice*/}
+      <button onClick={setToZero}>
+        reset
+      </button>
     </>
   )
 }
