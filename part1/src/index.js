@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-const Hello = ({ name, age }) => {
-  // OR with Hello = (props) => ...
-  // const name = props.name
-  // const age = props.age
-  // OR -------------------
-  // const { name, age } = props
-  
+const Hello = ({ name, age }) => {  
   const bornYear = () => new Date().getFullYear() - age
-
   return (
     <div>
       <p>
@@ -20,13 +13,11 @@ const Hello = ({ name, age }) => {
   )
 }
 
-const Footer = () => {
-  return (
-    <div>
-      greeting app created by <a href="https://github.com/jrud8/full-stack-open">Jrud + jakeV</a>
-    </div>
-  )
-}
+const Footer = () => (
+  <div>
+    Greeting app created by <a href="https://github.com/jrud8/full-stack-open">Jrud + jakeV.</a>
+  </div>
+)
 
 const Display = ({ counter }) => <div>{counter}</div>
 
@@ -38,11 +29,11 @@ const Button = ({ handleClick, text }) => (
 
 const App = () => {
   const [ counter, setCounter ] = useState(0)
-  
+  // handlers
   const increaseByOne = () => setCounter(counter + 1)
   const decreaseByOne = () => setCounter(counter - 1)
   const setToZero = () => setCounter(0)
-
+  // example - passing by variables
   const name = 'Harry'
   const this_year = new Date().getFullYear()
   const age = this_year - 1989
