@@ -28,16 +28,14 @@ const Footer = () => (
 )
 /**
  * @description Display shows value of clicks variable - aka component state
- * @param { Object } clicks is an object describing the composite state of App 
+ * @param { Object } clicks is an object describing the composite state of App
+ * @param { Array } all is an array of allClicks which have occurred
  */
 const Display = ({ clicks: { left, right }, all }) => {
   return (
     <div>
       <p>
         Left: {left}, Right: {right}
-      </p>
-      <p>
-        All: {all.join(' ')}
       </p>
     </div>
   )
@@ -52,6 +50,24 @@ const Button = ({ handleClick, text }) => (
     {text}
   </button>
 )
+/**
+ * @description displays the history App's buttons pressed
+ * @param { Array } allClicks is an array of App's button press history 
+ */
+const History = ({ allClicks }) => {
+  if (allClicks.length === 0) {
+    return (
+      <>
+        the app is used by pressing the buttons
+      </>
+    )
+  }
+  return (
+    <>
+      button press history: {allClicks.join(' ')}
+    </>
+  )
+}
 /**
  * @description App is main function and gets run automatically.  App also
  * contains all other sub-components defined above.  Therefore, on any state
@@ -110,6 +126,9 @@ const App = () => {
       <br />
       <Button handleClick={decreaseLeftByOne} text='left--' />
       <Button handleClick={decreaseRightByOne} text='right--' />
+      <br />
+      <br />
+      <History allClicks={allClicks} />
     </>
   )
 }
