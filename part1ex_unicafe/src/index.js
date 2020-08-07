@@ -15,6 +15,15 @@ const Stats = ({ good, neutral, bad }) => {
   let total = good + neutral + bad
   let avg = (good - bad) / total
   let positive = good / total * 100
+  // display if no feedback has been provided
+  if (total === 0) {
+    return (
+      <>
+        <p>No feedback given</p>
+      </>
+    )
+  }
+  // display when feedback is available
   return (
     <>
       <p>good {good}</p>
@@ -24,7 +33,7 @@ const Stats = ({ good, neutral, bad }) => {
       <p>average {avg}</p>
       <p>positive {positive}%</p>
     </>
-  )
+  ) 
 }
 /**
  * @description main app
