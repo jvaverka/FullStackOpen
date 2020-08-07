@@ -9,9 +9,9 @@ const Head = ({ text }) => <h1>{text}</h1>
  */
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 /**
- * @description show feedback statistics
+ * @description show all feedback statistics
  */
-const Stats = ({ good, neutral, bad }) => {
+const Statistics = ({ good, neutral, bad }) => {
   let total = good + neutral + bad
   let avg = (good - bad) / total
   let positive = good / total * 100
@@ -26,15 +26,19 @@ const Stats = ({ good, neutral, bad }) => {
   // display when feedback is available
   return (
     <>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {avg}</p>
-      <p>positive {positive}%</p>
+      <Statistic text='good' value={good} />
+      <Statistic text='neutral' value={neutral} />
+      <Statistic text='bad' value={bad} />
+      <Statistic text='all' value={total} />
+      <Statistic text='average' value={avg} />
+      <Statistic text='positive' value={positive} unit='%' />
     </>
   ) 
 }
+/**
+ * @description for individual statistic
+ */
+const Statistic = ({ text, value, unit='' }) => <div>{text} {value}{unit}</div>
 /**
  * @description main app
  */
@@ -54,7 +58,7 @@ const App = () => {
       <Button handleClick={incrementNeutral} text='neutral' />
       <Button handleClick={incrementBad} text='bad' />
       <Head text='statistics' />
-      <Stats good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </>
   )
 }
