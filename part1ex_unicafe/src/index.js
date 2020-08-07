@@ -16,15 +16,15 @@ const Stats = ({ good, neutral, bad }) => {
   let avg = (good - bad) / total
   let positive = good / total * 100
   return (
-  <>
-    <p>good {good}</p>
-    <p>neutral {neutral}</p>
-    <p>bad {bad}</p>
-    <p>all {total}</p>
-    <p>average {avg}</p>
-    <p>positive {positive}%</p>
-  </>
-)
+    <>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {total}</p>
+      <p>average {avg}</p>
+      <p>positive {positive}%</p>
+    </>
+  )
 }
 /**
  * @description main app
