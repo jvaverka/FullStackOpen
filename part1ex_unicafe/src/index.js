@@ -25,20 +25,31 @@ const Statistics = ({ good, neutral, bad }) => {
   }
   // display when feedback is available
   return (
-    <>
-      <Statistic text='good' value={good} />
-      <Statistic text='neutral' value={neutral} />
-      <Statistic text='bad' value={bad} />
-      <Statistic text='all' value={total} />
-      <Statistic text='average' value={avg} />
-      <Statistic text='positive' value={positive} unit='%' />
-    </>
+    <table>
+      <tbody>
+        <Statistic text='good' value={good} />
+        <Statistic text='neutral' value={neutral} />
+        <Statistic text='bad' value={bad} />
+        <Statistic text='all' value={total} />
+        <Statistic text='average' value={avg} />
+        <Statistic text='positive' value={positive} unit='%' />
+      </tbody>
+    </table>
   ) 
 }
 /**
  * @description for individual statistic
  */
-const Statistic = ({ text, value, unit='' }) => <div>{text} {value}{unit}</div>
+const Statistic = ({ text, value, unit='' }) => (
+  <tr>
+    <td>
+      {text}
+    </td>
+    <td style={{backgroundColor: 'lightgray'}}>
+      {value}{unit}
+    </td>
+  </tr>
+)
 /**
  * @description main app
  */
