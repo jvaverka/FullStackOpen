@@ -9,18 +9,26 @@ const Head = ({ text }) => <h1>{text}</h1>
  */
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 /**
- * @description main app
- */
-/**
  * @description show feedback statistics
  */
-const Stats = ({ good, neutral, bad }) => (
+const Stats = ({ good, neutral, bad }) => {
+  let total = good + neutral + bad
+  let avg = (good - bad) / total
+  let positive = good / total * 100
+  return (
   <>
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
+    <p>all {total}</p>
+    <p>average {avg}</p>
+    <p>positive {positive}%</p>
   </>
 )
+}
+/**
+ * @description main app
+ */
 const App = () => {
   // save clicks of each button to own state
   const [ good, setGood ] = useState(0)
