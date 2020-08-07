@@ -2,18 +2,33 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const App = (props) => {
+  // set initial state to zero
   const [selected, setSelected] = useState(0)
- 
-  const handleClick = () => {
+  // set initial state of all points to zero
+  let initState = Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0);
+  const [ points, setPoints ] = useState(initState)
+  // anecdote handler
+  const getAnecdote = () => {
+    // generate random number between zero and max length of anecdotes - 1
     let n = Math.floor(Math.random() * anecdotes.length - 1) + 1
-    console.log('value of n => ', n)
+    // change state to newly generated random number
     setSelected(n)
   }
-
+  // vote handler
+  const upVote = () => {
+    // create copy of existing state
+    const copy = {...points}
+    // add vote
+    copy[selected] += 1
+    // update state
+    setPoints(copy)
+  }
   return (
     <>
       <p>{props.anecdotes[selected]}</p>
-      <Button handleClick={handleClick} />
+      <p>has {points[selected]} votes</p>
+      <Button handleClick={upVote} text='vote' />
+      <Button handleClick={getAnecdote} text='next anecdote' />
     </>
   )
 }
@@ -21,7 +36,7 @@ const App = (props) => {
 const Button = (props) => {
   return (
     <button onClick={props.handleClick} >
-      next anecdote
+      {props.text}
     </button>
   )
 }
