@@ -1,34 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = (props) => {
-  console.log(props)
-  return (
-    <>
-      <h1>{props.course}</h1>
-    </>
-  )
-}
-
-const Content = (props) => {
-  // create array to contain rows
+const Course = ({ course }) => {
+  // console.log(course)
   let result = []
-  // add new Part row for each element
-  props.parts.forEach(element => {
-    // provide name & count properties to satisfy Part definition
-    result.push(<Part name={element.name} count={element.exercises} />)
+  result.push(<Header key={course.id} name={course.name} />)
+  course.parts.forEach(part => {
+    result.push(
+      <Content key={course.id + part.id} name={part.name} count={part.exercises} />
+    )
   })
-
   return result
 }
 
-const Part = (props) => {
-  return (
-    <>
-      <p>{props.name} {props.count}</p>
-    </>
-  )
-}
+const Header = ({ name }) => <h1>{name}</h1>
+
+const Content = ({ name, count }) => <Part name={name} count={count} />
+
+const Part = ({ name, count }) => <p>{name} {count}</p>
 
 const Total = (props) => {
   // initialize a variable for total cound
@@ -47,30 +36,28 @@ const Total = (props) => {
 
 const App = () => {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2
       },
       {
-      name: 'State of a component',
-      exercises: 14
+        name: 'State of a component',
+        exercises: 14,
+        id: 3
       }
     ]
   }
 
-  return (
-    <>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
-    </>
-  )
+  return <Course course={course} />
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
