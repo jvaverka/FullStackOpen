@@ -10,6 +10,7 @@ const Course = ({ course }) => {
       <Content key={course.id + part.id} name={part.name} count={part.exercises} />
     )
   })
+  result.push(<Total key={course.id*1000} parts={course.parts} />)
   return result
 }
 
@@ -29,7 +30,7 @@ const Total = (props) => {
   // return total count
   return (
     <>
-      <p>Number of exercises {count}</p>
+      <p><b>Total of exercises {count}</b></p>
     </>
   )
 }
@@ -53,6 +54,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
