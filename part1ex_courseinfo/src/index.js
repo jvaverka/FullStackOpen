@@ -21,16 +21,15 @@ const Content = ({ name, count }) => <Part name={name} count={count} />
 const Part = ({ name, count }) => <p>{name} {count}</p>
 
 const Total = (props) => {
-  // initialize a variable for total cound
-  let count = 0
-  // add number of exercises for each element
-  props.parts.forEach(element => {
-    count += element.exercises
-  });
-  // return total count
+  
+  const totalExercises = props.parts.reduce((sum, part) => {
+    // console.log('hello', sum, part);
+    return sum + part.exercises
+  }, 0)
+
   return (
     <>
-      <p><b>Total of exercises {count}</b></p>
+      <p><b>Total of exercises {totalExercises}</b></p>
     </>
   )
 }
