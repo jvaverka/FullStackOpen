@@ -1,19 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const Filter = () => {
-    const [ newFilter, setNewFilter ] = useState('')
-
-    const handleNewFilter = (event) => {
-        setNewFilter(event.target.value)
-    }
-
-    return (
-        <form>
-            <div>
-                find <input value={newFilter} onChange={handleNewFilter} />
-            </div>
-        </form>
-    )
-}
+const Filter = ({ newFilter, handleNewFilter }) =>
+    <div>
+        find <input value={newFilter} onChange={handleNewFilter} />
+    </div>
 
 export default Filter
