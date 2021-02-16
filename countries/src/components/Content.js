@@ -12,7 +12,7 @@ const Content = ({ countries, setCountries }) => {
         return (
             <ul>
                 {countries.map((country, i) =>
-                    <li key={i}> {country.name} </li>
+                    <li key={i}> {country.name} <button onClick={() => setCountries([country])}>show</button></li>
                 )}
             </ul>
         )
