@@ -9,6 +9,27 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [message, setMessage] = useState('')
+
+  const Notification = ({ successMessage }) => {
+    if (message === null) {
+      return null
+    }
+    const notifyStyle = {
+      color: 'green',
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10
+    }
+
+    return (
+      <div style={notifyStyle}>
+        {successMessage}
+      </div>
+    )
+  }
 
   // set our hook
   const hook = () => {
@@ -51,6 +72,10 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setMessage(`Added '${returnedPerson.name}'`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000);
         })
     } else if (existingPerson && existingPerson.number !== newNumber) {
       // ask user if they wish to update the number
@@ -59,6 +84,10 @@ const App = () => {
           .update(existingPerson.id, personObject)
           .then(returnedPerson => {
             setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
+            setMessage(`Updated '${returnedPerson.name}'`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000);
           })
       }
     } else {
@@ -82,8 +111,11 @@ const App = () => {
     personService
       .remove(person)
       .then(() => {
-        console.log(`removed person '${person.name}' successfully`)
         setPersons(persons.filter(p => p.id !== person.id))
+        setMessage(`removed '${person.name}'`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000);
       })
       .catch(error => {
         console.log(error)
@@ -97,6 +129,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification successMessage={message} />
       <Filter
         newFilter={newFilter}
         handleNewFilter={handleNewFilter}
