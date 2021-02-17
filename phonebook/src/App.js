@@ -70,10 +70,12 @@ const App = () => {
   const deletePerson = (person) => {
     personService
       .remove(person)
-      .then(remainingPersons => {
+      .then(() => {
+        console.log(`removed person '${person.name}' successfully`)
         setPersons(persons.filter(p => p.id !== person.id))
       })
       .catch(error => {
+        console.log(error)
         window.confirm(
           `the person '${person.name}' was already deleted from server`
         )
@@ -84,11 +86,23 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter newFilter={newFilter} handleNewFilter={handleNewFilter} />
+      <Filter 
+        newFilter={newFilter} 
+        handleNewFilter={handleNewFilter} 
+      />
       <h2>add a new</h2>
-      <PersonForm onSubmit={addPerson} newName={newName} handleNewName={handleNewName} newNumber={newNumber} handleNewNumber={handleNewNumber} />
+      <PersonForm 
+        onSubmit={addPerson} 
+        newName={newName} 
+        handleNewName={handleNewName} 
+        newNumber={newNumber} 
+        handleNewNumber={handleNewNumber} 
+      />
       <h2>Numbers</h2>
-      <Content persons={personsToShow} deletePerson={deletePerson} />
+      <Content 
+        persons={personsToShow} 
+        deletePerson={deletePerson} 
+       />
     </div>
   )
 }
