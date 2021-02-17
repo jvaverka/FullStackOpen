@@ -43,15 +43,26 @@ const App = () => {
         number: newNumber
     }
 
-    if (!persons.find(person => person.name === newName) &&
-        !persons.find(person => person.number === newNumber)) {
+    // try to find if the person already exists in phonebook
+    const existingPerson = persons.find(person => person.name === newName)
+
+    if (!existingPerson) {
           personService
             .create(personObject)
             .then(returnedPerson => {
               setPersons(persons.concat(returnedPerson))
             })
+    } else if (existingPerson && existingPerson.number !== newNumber) {
+                // ask user if they wish to update the number
+                if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                  personService
+                    .update(existingPerson.id, personObject)
+                    .then(returnedPerson => {
+                      setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
+                    })
+                }
     } else {
-      alert(`${newName} or ${newNumber} is already in phonebook`)
+      alert(`${newName} ${newNumber} is already in phonebook`)
     }
     setNewName('')
     setNewNumber('')
