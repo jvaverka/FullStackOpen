@@ -5,16 +5,16 @@ import PersonForm from './components/PersonForm'
 import personService from './services/persons'
 
 const App = () => {
-  const [ persons, setPersons] = useState([])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
-  const [ newFilter, setNewFilter ] = useState('')
+  const [persons, setPersons] = useState([])
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [newFilter, setNewFilter] = useState('')
 
   // set our hook
   const hook = () => {
     personService
       .getAll()
-      .then(allPersons => {setPersons(allPersons)})
+      .then(allPersons => { setPersons(allPersons) })
   }
   // execute effect 
   // 2nd arg, [] means only after first render
@@ -26,41 +26,41 @@ const App = () => {
 
   const filterPerson = (person) => {
     if (person.name.toLowerCase().includes(newFilter.toLowerCase()) ||
-        person.number.toLowerCase().includes(newFilter.toLowerCase())) {
-          return true
+      person.number.toLowerCase().includes(newFilter.toLowerCase())) {
+      return true
     }
     return false
   }
 
   const personsToShow = newFilter
-    ? persons.filter( p => filterPerson(p) )
+    ? persons.filter(p => filterPerson(p))
     : persons
 
   const addPerson = (event) => {
     event.preventDefault();
     const personObject = {
-        name: newName,
-        number: newNumber
+      name: newName,
+      number: newNumber
     }
 
     // try to find if the person already exists in phonebook
     const existingPerson = persons.find(person => person.name === newName)
 
     if (!existingPerson) {
-          personService
-            .create(personObject)
-            .then(returnedPerson => {
-              setPersons(persons.concat(returnedPerson))
-            })
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+        })
     } else if (existingPerson && existingPerson.number !== newNumber) {
-                // ask user if they wish to update the number
-                if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
-                  personService
-                    .update(existingPerson.id, personObject)
-                    .then(returnedPerson => {
-                      setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
-                    })
-                }
+      // ask user if they wish to update the number
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(existingPerson.id, personObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
+          })
+      }
     } else {
       alert(`${newName} ${newNumber} is already in phonebook`)
     }
@@ -97,23 +97,23 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter 
-        newFilter={newFilter} 
-        handleNewFilter={handleNewFilter} 
+      <Filter
+        newFilter={newFilter}
+        handleNewFilter={handleNewFilter}
       />
       <h2>add a new</h2>
-      <PersonForm 
-        onSubmit={addPerson} 
-        newName={newName} 
-        handleNewName={handleNewName} 
-        newNumber={newNumber} 
-        handleNewNumber={handleNewNumber} 
+      <PersonForm
+        onSubmit={addPerson}
+        newName={newName}
+        handleNewName={handleNewName}
+        newNumber={newNumber}
+        handleNewNumber={handleNewNumber}
       />
       <h2>Numbers</h2>
-      <Content 
-        persons={personsToShow} 
-        deletePerson={deletePerson} 
-       />
+      <Content
+        persons={personsToShow}
+        deletePerson={deletePerson}
+      />
     </div>
   )
 }
