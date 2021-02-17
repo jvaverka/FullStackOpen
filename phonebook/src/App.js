@@ -9,25 +9,50 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [message, setMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const [failureMessage, setFailureMessage] = useState('')
 
-  const Notification = ({ successMessage }) => {
-    if (message === null) {
+  const Notification = ({ success, failure }) => {
+    if (success === null && failure === null) {
       return null
     }
-    const notifyStyle = {
-      color: 'green',
-      background: 'lightgrey',
-      fontSize: 20,
-      borderStyle: 'solid',
-      borderRadius: 5,
-      padding: 10
+
+    if (success) {
+      const successStyle = {
+        color: 'green',
+        background: 'lightgrey',
+        fontSize: 20,
+        borderStyle: 'solid',
+        borderRadius: 5,
+        padding: 10
+      }
+
+      return (
+        <div style={successStyle}>
+          {success}
+        </div>
+      )
+    } 
+    
+    if (failure) {
+      const failureStyle = {
+        color: 'red',
+        background: 'lightgrey',
+        fontSize: 20,
+        borderStyle: 'solid',
+        borderRadius: 5,
+        padding: 10
+      }
+
+      return (
+        <div style={failureStyle}>
+          {failure}
+        </div>
+      )
     }
 
     return (
-      <div style={notifyStyle}>
-        {successMessage}
-      </div>
+      <div></div>
     )
   }
 
@@ -72,9 +97,9 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
-          setMessage(`Added '${returnedPerson.name}'`)
+          setSuccessMessage(`Added '${returnedPerson.name}'`)
           setTimeout(() => {
-            setMessage(null)
+            setSuccessMessage(null)
           }, 5000);
         })
     } else if (existingPerson && existingPerson.number !== newNumber) {
@@ -84,14 +109,18 @@ const App = () => {
           .update(existingPerson.id, personObject)
           .then(returnedPerson => {
             setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
-            setMessage(`Updated '${returnedPerson.name}'`)
+            setSuccessMessage(`Updated '${returnedPerson.name}'`)
             setTimeout(() => {
-              setMessage(null)
+              setSuccessMessage(null)
             }, 5000);
           })
       }
     } else {
-      alert(`${newName} ${newNumber} is already in phonebook`)
+      // alert(`${newName} ${newNumber} is already in phonebook`)
+      setFailureMessage(`${newName} ${newNumber} already in phonebook`)
+      setTimeout(() => {
+        setFailureMessage(null)
+      }, 5000);
     }
     setNewName('')
     setNewNumber('')
@@ -112,24 +141,31 @@ const App = () => {
       .remove(person)
       .then(() => {
         setPersons(persons.filter(p => p.id !== person.id))
-        setMessage(`removed '${person.name}'`)
+        setSuccessMessage(`removed '${person.name}'`)
         setTimeout(() => {
-          setMessage(null)
+          setSuccessMessage(null)
         }, 5000);
       })
       .catch(error => {
         console.log(error)
-        window.confirm(
-          `the person '${person.name}' was already deleted from server`
-        )
+        // window.confirm(
+        //   `the person '${person.name}' was already deleted from server`
+        // )
         setPersons(persons.filter(p => p.id !== person.id))
+        setFailureMessage(`'${person.name}' was already deleted from server`)
+        setTimeout(() => {
+          setFailureMessage(null)
+        }, 5000);
       })
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification successMessage={message} />
+      <Notification s
+        success={successMessage} 
+        failure={failureMessage} 
+      />
       <Filter
         newFilter={newFilter}
         handleNewFilter={handleNewFilter}
