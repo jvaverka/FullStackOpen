@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Content from './components/Content'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -13,18 +12,13 @@ const App = () => {
 
   // set our hook
   const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    personService
+      .getAll()
+      .then(allPersons => {setPersons(allPersons)})
   }
   // execute effect 
   // 2nd arg, [] means only after first render
   useEffect(hook, [])
-  console.log('render', persons.length, 'persons')
 
   const handleNewFilter = (event) => {
     setNewFilter(event.target.value)
@@ -51,7 +45,11 @@ const App = () => {
 
     if (!persons.find(person => person.name === newName) &&
         !persons.find(person => person.number === newNumber)) {
-          setPersons(persons.concat(personObject))
+          personService
+            .create(personObject)
+            .then(returnedPerson => {
+              setPersons(persons.concat(returnedPerson))
+            })
     } else {
       alert(`${newName} or ${newNumber} is already in phonebook`)
     }
