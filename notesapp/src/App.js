@@ -26,17 +26,50 @@ const App = () => {
     const [ notes, setNotes] = useState([])
     const [ newNote, setNewNote] = useState('')
     const [ showAll, setShowAll] = useState(true)
-    const [ errorMessage, setErrorMessage ] = useState('some error happened...')
+    const [ successMessage, setSuccessMessage ] = useState('')
+    const [ failureMessage, setFailureMessage ] = useState('')
 
-    const Notification = ({ message }) => {
-        if (message === null) {
+    const Notification = ({ success, failure }) => {
+        if (success === null && failure === null) {
             return null
         }
 
+        if (success) {
+            const successStyle = {
+                color: 'green',
+                background: 'lightgrey',
+                fontSize: 20,
+                borderStyle: 'solid',
+                borderRadius: 5,
+                padding: 10
+            }
+
+            return (
+                <div style={successStyle}>
+                    {success}
+                </div>
+            )
+        }
+
+        if (failure) {
+            const failureStyle = {
+                color: 'red',
+                background: 'lightgrey',
+                fontSize: 20,
+                borderStyle: 'solid',
+                borderRadius: 5,
+                padding: 10
+            }
+
+            return (
+                <div style={failureStyle}>
+                    {failure}
+                </div>
+            )
+        }
+
         return (
-            <div className="error">
-                {message}
-            </div>
+            <div></div>
         )
     }
 
@@ -56,12 +89,24 @@ const App = () => {
             // id: notes.length + 1,
         }
 
-        noteService
-            .create(noteObject)
-            .then(returnedNote => {
-                setNotes(notes.concat(returnedNote))
-                setNewNote('')
-            })
+        if (!noteObject.content) {
+            setFailureMessage('Insert content to add note')
+            setTimeout(() => {
+                setFailureMessage(null)
+            }, 5000)
+        } else {
+            noteService
+                .create(noteObject)
+                .then(returnedNote => {
+                    setNotes(notes.concat(returnedNote))
+                    setNewNote('')
+                    setSuccessMessage(`Added note '${returnedNote.content}'`)
+                    setTimeout(() => {
+                        setSuccessMessage(null)
+                    }, 5000);
+                })
+        }
+
     }
 
     const handleNoteChange = (event) => {
@@ -81,13 +126,18 @@ const App = () => {
             .update(id, changedNote)
             .then(returnedNote => {
                 setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+                console.log('returnedNote->', returnedNote)
+                setSuccessMessage(`Changed importance of note '${returnedNote.content}'`)
+                setTimeout(() => {
+                    setSuccessMessage(null)
+                }, 5000);
             })
             .catch(error => {
-                setErrorMessage(
+                setFailureMessage(
                     `Note '${note.content}' was already removed from server`
                 )        
                 setTimeout(() => { 
-                    setErrorMessage(null) 
+                    setFailureMessage(null) 
                 }, 5000)
                 setNotes(notes.filter(n => n.id !== id))
             })
@@ -96,7 +146,7 @@ const App = () => {
     return (
         <div>
             <h1>Notes</h1>
-            <Notification message={errorMessage} />
+            <Notification success={successMessage} failure={failureMessage} />
             <div>
                 <button onClick={() => setShowAll(!showAll)}>
                     show { showAll ? 'important' : 'all' }
