@@ -8,6 +8,7 @@ const app = express()
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
+app.use(express.static('build'))
 
 let notes = [
     { 
@@ -74,7 +75,7 @@ app.post('/api/notes', (request, response) => {
     const note = {
         content: body.content,
         important: body.important || false,
-        date: new Date.ISOString(),
+        date: new Date().toISOString(),
         id: generateId(),
     }
 

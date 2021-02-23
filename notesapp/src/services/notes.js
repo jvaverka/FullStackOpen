@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // reading on Promises Chaining here: https://javascript.info/promise-chaining
 
-const baseUrl = 'https://thawing-reaches-14441.herokuapp.com/api/notes'
+const baseUrl = '/api/notes'
 
 const getAll = () => {
     const request = axios.get(baseUrl)
