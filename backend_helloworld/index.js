@@ -1,8 +1,11 @@
 // CommonJS import
 const express = require('express')  // ES6 => import http from 'http'
+const morgan = require('morgan')
+
 const app = express()
 
 app.use(express.json())
+app.use(morgan('tiny'))
 
 let notes = [
     { 
