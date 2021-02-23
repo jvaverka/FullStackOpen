@@ -88,7 +88,7 @@ const App = () => {
             important: Math.random() < 0.5,
             // id: notes.length + 1,
         }
-
+        
         if (!noteObject.content) {
             setFailureMessage('Insert content to add note')
             setTimeout(() => {
