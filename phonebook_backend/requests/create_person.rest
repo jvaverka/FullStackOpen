@@ -8,3 +8,30 @@ Content-Type: application/json
     "name": "The Ghostbusters",
     "number": "555-2368"
 }
+
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "",
+    "number": "000-0000"
+}
+
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Jacob Vaverka",
+    "number": ""
+}
+
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Jacob Vaverka",
+    "number": "000-0000"
+}
