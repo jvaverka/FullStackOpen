@@ -1,7 +1,23 @@
-// CommonJS import
-const express = require('express')  // ES6 => import http from 'http'
+const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const mongoose = require('mongoose')
+
+const password = "nvcodeandbeyond"
+// const password = process.argv[2]
+
+const url =
+    `mongodb+srv://fullstack:${password}@cluster0.tzhyx.mongodb.net/note-app?retryWrites=true&w=majority`
+
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true})
+
+const noteSchema = new mongoose.Schema({
+    content: String,
+    date: Date,
+    important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
 
 const app = express()
 
@@ -11,28 +27,30 @@ app.use(cors())
 app.use(express.static('build'))
 
 let notes = [
-    { 
-        id: 1, 
-        content: "HTML is easy", 
-        date: "2019-05-30T17:30:31.098Z", 
-        important: true 
-    }, 
-    { 
-        id: 2, 
-        content: "Browser can execute only Javascript", 
-        date: "2019-05-30T18:39:34.091Z", 
-        important: false 
-    }, 
-    { 
-        id: 3, 
+    {
+        id: 1,
+        content: "HTML is easy",
+        date: "2019-05-30T17:30:31.098Z",
+        important: true
+    },
+    {
+        id: 2,
+        content: "Browser can execute only Javascript",
+        date: "2019-05-30T18:39:34.091Z",
+        important: false
+    },
+    {
+        id: 3,
         content: "GET and POST are the most important methods of HTTP protocol",
-        date: "2019-05-30T19:20:14.298Z", 
-        important: true 
+        date: "2019-05-30T19:20:14.298Z",
+        important: true
     }
 ]
 
 app.get('/api/notes', (request, response) => {
-    response.json(notes)
+    Note.find({}).then(notes => {
+        response.json(notes)
+    })
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -76,12 +94,12 @@ app.post('/api/notes', (request, response) => {
     }
 
     notes = notes.concat(note)
-    
+
     response.json(note)
 })
 
 const unknownEndpoint = (request, response) => {
-    response.status(404).send({ error: 'unknown endpoint' })
+    response.status(404).send({error: 'unknown endpoint'})
 }
 
 app.use(unknownEndpoint)

@@ -7,10 +7,10 @@ if (process.argv.length < 3) {
 
 const password = process.argv[2]
 
-const url = 
+const url =
     `mongodb+srv://fullstack:${password}@cluster0.tzhyx.mongodb.net/note-app?retryWrites=true&w=majority`
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true})
 
 const noteSchema = new mongoose.Schema({
     content: String,
@@ -20,11 +20,11 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema)
 
-const note = new Note({
-    content: 'HTML is Easy',
-    date: new Date(),
-    important: true,
-})
+// const note = new Note({
+//     content: 'HTML is Easy',
+//     date: new Date(),
+//     important: true,
+// })
 
 // creating and saving objects
 // note.save().then(result => {
