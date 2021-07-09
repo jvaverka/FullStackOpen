@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import Note from './components/Note'
 import noteService from './services/notes'
 
-const Footer = () => { 
+const Footer = () => {
     // example of inline styles
-    const footerStyle = { 
-        color: 'green', 
-        fontStyle: 'italic', 
-        fontSize: 16 
-    }  
+    const footerStyle = {
+        color: 'green',
+        fontStyle: 'italic',
+        fontSize: 16
+    }
     return (
         <div style={footerStyle}>
             <br />
             <em>
-                Note app, 
-                Department of Computer Science, 
+                Note app,
+                Department of Computer Science,
                 University of Helsinki 2020
             </em>
         </div>
-    ) 
+    )
 }
 
 const App = () => {
 
-    const [ notes, setNotes] = useState([])
-    const [ newNote, setNewNote] = useState('')
-    const [ showAll, setShowAll] = useState(true)
-    const [ successMessage, setSuccessMessage ] = useState('')
-    const [ failureMessage, setFailureMessage ] = useState('')
+    const [notes, setNotes] = useState([])
+    const [newNote, setNewNote] = useState('')
+    const [showAll, setShowAll] = useState(true)
+    const [successMessage, setSuccessMessage] = useState('')
+    const [failureMessage, setFailureMessage] = useState('')
 
-    const Notification = ({ success, failure }) => {
+    const Notification = ({success, failure}) => {
         if (success === null && failure === null) {
             return null
         }
@@ -88,7 +88,7 @@ const App = () => {
             important: Math.random() < 0.5,
             // id: notes.length + 1,
         }
-        
+
         if (!noteObject.content) {
             setFailureMessage('Insert content to add note')
             setTimeout(() => {
@@ -116,11 +116,11 @@ const App = () => {
 
     const notesToShow = showAll
         ? notes
-        : notes.filter( note => note.important )
-    
+        : notes.filter(note => note.important)
+
     const toggleImportanceOf = id => {
         const note = notes.find(n => n.id === id)
-        const changedNote = { ...note, important: !note.important }
+        const changedNote = {...note, important: !note.important}
 
         noteService
             .update(id, changedNote)
@@ -135,9 +135,9 @@ const App = () => {
             .catch(error => {
                 setFailureMessage(
                     `Note '${note.content}' was already removed from server`
-                )        
-                setTimeout(() => { 
-                    setFailureMessage(null) 
+                )
+                setTimeout(() => {
+                    setFailureMessage(null)
                 }, 5000)
                 setNotes(notes.filter(n => n.id !== id))
             })
@@ -149,20 +149,20 @@ const App = () => {
             <Notification success={successMessage} failure={failureMessage} />
             <div>
                 <button onClick={() => setShowAll(!showAll)}>
-                    show { showAll ? 'important' : 'all' }
+                    show {showAll ? 'important' : 'all'}
                 </button>
             </div>
             <ul>
                 {notesToShow.map(note =>
-                    <Note 
-                        key={note.id} 
-                        note={note} 
+                    <Note
+                        key={note.id}
+                        note={note}
                         toggleImportance={() => toggleImportanceOf(note.id)}
                     />
                 )}
             </ul>
             <form onSubmit={addNote}>
-                <input 
+                <input
                     value={newNote}
                     onChange={handleNoteChange}
                 />
@@ -173,4 +173,4 @@ const App = () => {
     )
 }
 
-export default App
+export default App;
